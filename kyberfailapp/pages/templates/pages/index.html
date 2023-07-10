@@ -5,13 +5,15 @@
     <title>Doctor's notes</title>
 </head>
 
-<body>
-    <h1>Your Notes/Personal Health Information</h1>
+<form action='logout/' method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Logout" />
+</form>
 
-    <form action='logout/' method="POST">
-        {% csrf_token %}
-        <input type="submit" value="Logout" />
-    </form>
+<body>
+    <h1>Your Notes</h1>
+
+
 
     {% if doctor %}
     <h2>Create patient notes</h2>

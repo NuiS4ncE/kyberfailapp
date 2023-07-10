@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'kyberfailapp',
+    'kyberfailapp.pages',
 ]
 
 MIDDLEWARE = [
@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'kyberfailapp.urls'
+ROOT_URLCONF = 'kyberfailapp.config.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,10 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'kyberfailapp.wsgi.application'
+WSGI_APPLICATION = 'kyberfailapp.config.wsgi.application'
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
 
 
 # Database
