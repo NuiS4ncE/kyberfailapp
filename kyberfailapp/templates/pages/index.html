@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Doctor's notes</title>
+</head>
+
+<body>
+    <h1>Your Notes/Personal Health Information</h1>
+
+    <form action='logout/' method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Logout" />
+    </form>
+
+    {% if doctor %}
+    <h2>Create patient notes</h2>
+    <form id="notes" action="notes/" method="POST">
+        {% csrf_token %}
+        <span>To:</span><br />
+        <select name="to">
+            {% for user in users %}
+            <option value="{{user.username}}">{{user.username}}</option>
+            {% endfor %}
+        </select><br />
+        <span>Write the note:</span><br />
+        <input type="text" name="notetext" /><br />
+
+        <input type="submit" value="Add note" />
+    </form>
+    {% endif %}
+</body>
+
+</html>
