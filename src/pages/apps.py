@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class PagesConfig(AppConfig):
-    name = 'kyberfailapp.pages'
+    name = 'src.pages'
