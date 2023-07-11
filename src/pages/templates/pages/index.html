@@ -38,33 +38,30 @@
     </table>
 
     <h2>Notes written to you</h2>
-    {% if accounts.note|length < 1 %} <p>Nothing to see here.</p>
-        {% else %}
-        {% for account in accounts %}
-        <tr>
-            <td>{{ account.note }}</td>
-        </tr>
-        {% endfor %}
-        {% endif %}
+    {% for note in notes %}
+    <tr>
+        <td>{{ note }}</td>
+    </tr>
+    {% endfor %}
 
-        {% if accounts.doctor %}
-        <h2>Write a note</h2>
+    {% if doctor == True %}
+    <h2>Write a note</h2>
 
-        <form id='note' action='notes/' method="POST">
-            {% csrf_token %}
-            <span>To:</span><br />
-            <select name="to">
-                {% for account in accounts %}
-                <option value="{{account.user.username}}">{{account.user.username}}</option>
-                {% endfor %}
-            </select><br />
+    <form id='note' action='notes/' method="POST">
+        {% csrf_token %}
+        <span>To:</span><br />
+        <select name="to">
+            {% for account in accounts %}
+            <option value="{{account.user.username}}">{{account.user.username}}</option>
+            {% endfor %}
+        </select><br />
 
-            <span>Write a note:</span><br />
-            <input type="text" name="notetext" /><br />
+        <span>Write a note:</span><br />
+        <input type="text" name="notetext" /><br />
 
-            <input type="submit" value="Write" />
-        </form>
-        {% endif %}
+        <input type="submit" value="Write" />
+    </form>
+    {% endif %}
 </body>
 </body>
 

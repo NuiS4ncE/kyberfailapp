@@ -8,9 +8,18 @@ from django.contrib.auth import authenticate, login
 
 @login_required
 def homePageView(request):
+    account = Account.objects.get(user_id=request.user.id)
     accounts = Account.objects.exclude(user_id=request.user.id)
+    doctor = account.doctor
     #users = User.objects.all()
-    return render(request, 'pages/index.html', {'accounts': accounts})
+    #account_list = list(accounts)
+    #notes = [account.note for account in accounts]
+    notes = Account.objects.values_list('note', flat=True)
+    print("NOTES: " + str(account.note))
+    #doctorstatus = [account.doctor for account in accounts]
+    print("DOCTOR: " + str(account.doctor))
+    #print("ACCOUNT_LIST: " + str(account_list))
+    return render(request, 'pages/index.html', {'notes': notes, 'accounts': accounts, 'doctor': doctor})
 
 def loginView(request):
     if request.method == 'POST':
