@@ -8,24 +8,25 @@ from django.contrib.auth import authenticate, login
 
 @login_required
 def homePageView(request):
-    print("DO WE EVEN VISIT THE HOMEPAGEVIEW FUNCTION!????")
     accounts = Account.objects.exclude(user_id=request.user.id)
-    accounts = []
     #users = User.objects.all()
     return render(request, 'pages/index.html', {'accounts': accounts})
 
 def loginView(request):
-    print("DO WE EVEN VISIT THIS?")
     if request.method == 'POST':
-        email = request.POST['email']
+        username = request.POST['username']
+        #print("THIS IS THE USERNAME: " + username)
         password = request.POST['password']
-        user = authenticate(request, email=email, password=password)
+        #print("THIS IS THE PASSWORD: " + password)
+        user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            print("LOGIN SUCCESSFUL, REDIRECTING")
             return redirect('home')
         else:
             print("LoL")
     else:
+        print("RENDERING LOGIN PAGE AGAIN")
         return render(request, 'pages/login.html')
 
 @login_required
