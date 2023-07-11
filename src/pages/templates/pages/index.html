@@ -3,11 +3,10 @@
 <html lang="en">
 
 <head>
-    <title>Doctor's notes</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login</title>
+    <title>Doctor's notes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link href="{% static 'index.css' %}" rel="stylesheet">
@@ -16,28 +15,57 @@
         crossorigin="anonymous"></script>
 </head>
 
-<body class="text-center">
-    <h1 class="h3 mb-3 font-weight-normal">Your Notes</h1>
-
-    <form class="form-logout" action='logout/' method="POST">
+<body>
+    <form action='logout/' method="POST">
         {% csrf_token %}
         <input type="submit" value="Logout" />
     </form>
+    <h1>Your notes</h1>
 
-    <h2>Create patient notes</h2>
-    <form class="form-notes" id="notes" action="notes/" method="POST">
-        {% csrf_token %}
-        <span>To:</span><br />
-        <select name="to">
-            {% for account in accounts %}
-            <option value="{{account.user.username}}">{{account.user.username}}</option>
-            {% endfor %}
-        </select><br />
-        <span>Write the note:</span><br />
-        <input type="text" name="notetext" /><br />
+    <table>
+        <tr>
+            <th style="text-align:left">Username:
+            <td>{{user.username}}
+        <tr>
+            <th style="text-align:left">First name:
+            <td>{{user.first_name}}
+        <tr>
+            <th style="text-align:left">Last name:
+            <td>{{user.last_name}}
+        <tr>
+            <th style="text-align:left">Email:
+            <td>{{user.email}}
+    </table>
 
-        <input type="submit" value="Add note" />
-    </form>
+    <h2>Notes written to you</h2>
+    {% if accounts.note|length < 1 %} <p>Nothing to see here.</p>
+        {% else %}
+        {% for account in accounts %}
+        <tr>
+            <td>{{ account.note }}</td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+
+        {% if accounts.doctor %}
+        <h2>Write a note</h2>
+
+        <form id='note' action='notes/' method="POST">
+            {% csrf_token %}
+            <span>To:</span><br />
+            <select name="to">
+                {% for account in accounts %}
+                <option value="{{account.user.username}}">{{account.user.username}}</option>
+                {% endfor %}
+            </select><br />
+
+            <span>Write a note:</span><br />
+            <input type="text" name="notetext" /><br />
+
+            <input type="submit" value="Write" />
+        </form>
+        {% endif %}
+</body>
 </body>
 
 </html>
