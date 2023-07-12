@@ -38,12 +38,13 @@
     </table>
 
     <h2>Notes written to you</h2>
+    <ul>
     {% for note in notes %}
-    <tr>
-        <td>{{ note }}</td>
-    </tr>
+    
+        <li>{{ note.note }}
+    
     {% endfor %}
-
+</ul>
     {% if doctor == True %}
     <h2>Write a note</h2>
 

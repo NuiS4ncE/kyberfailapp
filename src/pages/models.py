@@ -4,5 +4,9 @@ from django.contrib.auth.models import User
 
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    note = models.TextField()
     doctor = models.BooleanField()
+
+class Note(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    note = models.TextField()
+    createdAt = models.DateTimeField(auto_now_add=True)
