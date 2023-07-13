@@ -6,23 +6,25 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login</title>
+  <title>Register</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-  <link href="{% static 'login.css' %}" rel="stylesheet">
+  <link href="{% static 'register.css' %}" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
     crossorigin="anonymous"></script>
 </head>
 
 <body class="text-center">
-  <form class="form-signin" method="post">
-    <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+  <form class="form-register" method="post">
+    <h1 class="h3 mb-3 font-weight-normal">Register</h1>
     {% csrf_token %}
     <input id="inputUsername" class="form-control" placeholder="Username" required="" autofocus="" type="username" name="username">
     <input id="inputPassword" class="form-control" placeholder="Password" required="" type="password" name="password">
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    <button class="btn btn-lg btn-primary btn-block" type="button" onclick="location.href='{% url 'registerView' %}'">Register</button>
+    <input id="inputEmail" class="form-control" placeholder="Email" required="" type="email" name="email">
+    <input id="inputFirstName" class="form-control" placeholder="First name" required="" type="text" name="firstName">
+    <input id="inputLastName" class="form-control" placeholder="Last Name" required="" type="text" name="lastName">
+    <button class="btn btn-lg btn-primary btn-block" type="Submit" action="register/">Register</button>
   </form>
 </body>
 
