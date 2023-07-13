@@ -43,18 +43,18 @@ def registerView(request):
         email = request.POST['email']
         firstName = request.POST['firstName']
         lastName = request.POST['lastName']
-        user = User.objects.create_user(username=username, email=email, password=password, first_name=firstName, last_name=lastName)
+        try:
+            user = User.objects.create_user(username=username, email=email, password=password, first_name=firstName, last_name=lastName)
+        except IntegrityError as e:
+                error = "Registration failed. User already exists. More info: " + e.args[0]
+                return HttpResponse("Something went wrong. " + error)
         user.save()
         print("CREATED USER")
         account = Account.objects.create(user=user, doctor=False)
         account.save()
-        print("CREATED ACCOUNT")
-        try:
-            user = authenticate(username=username, password=password)
-        except IntegrityError as e:
-            if "unique constraint" in e.message:
-                error = "Registration failed. User already exists. " + e.message
-                return render(request, 'pages/error.html', {'error': error})
+        print("CREATED ACCOUNT")        
+        user = authenticate(username=username, password=password)
+        
         if user is not None:
             login(request, user)
             print("LOGIN SUCCESSFUL AFTER REGISTER")
