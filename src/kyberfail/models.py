@@ -9,4 +9,5 @@ class Account(models.Model):
 class Note(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     note = models.TextField()
+    description = models.TextField()
     createdAt = models.DateTimeField(auto_now_add=True)

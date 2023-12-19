@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'src.pages',
+    'src.kyberfail',
 ]
 
 MIDDLEWARE = [
@@ -121,7 +121,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'pages' / 'static',
+    BASE_DIR / 'kyberfail' / 'static',
 ]
 
 # Default primary key field type

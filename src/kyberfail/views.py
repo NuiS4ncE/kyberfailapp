@@ -69,4 +69,7 @@ def noteWriteView(request):
         note = Note.objects.create(user=toUser, note=noteText)
         note.save()
 
+def noteView(request):
+    return render(request, 'pages/note.html')
+
     return redirect('home')
