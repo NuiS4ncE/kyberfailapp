@@ -70,18 +70,34 @@ def noteWriteView(request):
         note = Note.objects.create(user=toUser, title=noteTitle, description=noteDescription)
         note.save()
 
+@login_required
 def noteView(request):
     return render(request, 'pages/note.html')
 
     return redirect('home')
 
+@login_required
 def notesView(request):
     account = Account.objects.get(user_id=request.user.id)
     accounts = Account.objects.exclude(user=request.user)
     doctor = account.doctor
     notes = Note.objects.all()
+    if request.method == 'POST':
+        toUser = User.objects.get(username=request.POST.get('to'))
+        noteTitle = request.POST.get('title')
+        noteDescription = request.POST.get('description')
+        note = Note.objects.create(user=toUser, title=noteTitle, description=noteDescription)
+        note.save()    
     return render(request, 'pages/notes.html', {'notes': notes, 'accounts': accounts, 'doctor': doctor})
 
+@login_required
 def patientsView(request):
+    accounts = Account.objects.exclude(user=request.user)
+    account = Account.objects.get(user_id=request.user.id)
+    doctor = account.doctor
+    return render(request, 'pages/patients.html', {'accounts': accounts, 'doctor': doctor})
 
-    return render(request, 'pages/patients.html')
+@login_required
+def profileView(request):
+
+    return render(request, 'pages/profile.html')
