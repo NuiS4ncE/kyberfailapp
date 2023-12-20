@@ -57,7 +57,7 @@ def create_initial_note(apps, schema_editor):
     account = Account.objects.get(user__username="jim")
 
     Note.objects.create(
-        note="Flu",
+        title="Flu",
         description="You have a flu my guy",
         createdAt=datetime.datetime.now(),
         user=account.user

@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             name='Note',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('note', models.TextField()),
+                ('title', models.TextField()),
                 ('description', models.TextField()),
                 ('createdAt', models.DateTimeField(auto_now_add=True)),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
