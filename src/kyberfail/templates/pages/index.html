@@ -76,7 +76,7 @@
               {% for note in notes %}
               <tr>
                 <td>
-                  <a href="{% url 'note' %}">{{note.title}}</a>
+                  <a href="{% url 'note' note.id %}">{{note.title}}</a>
                 </td>
                 <td>{{note.description}}</td>
                 <td>{{note.createdAt}}</td>
