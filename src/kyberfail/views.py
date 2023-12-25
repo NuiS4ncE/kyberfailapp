@@ -74,9 +74,11 @@ def noteView(request, noteId):
 
 @login_required
 def patientView(request, patientId):
-    patient = User.objects.get(id=patientId)
     account = Account.objects.get(user_id=request.user.id)
     doctor = account.doctor
+    if doctor == False:
+        return redirect('home')
+    patient = User.objects.get(id=patientId)
 
     return render(request, 'pages/patient.html', {'patient': patient, 'doctor': doctor})
 
