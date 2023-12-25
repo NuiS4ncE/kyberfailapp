@@ -22,7 +22,6 @@
 
   <body>
     <!-- Navbar -->
-    {% if doctor == True %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="{% url 'home' %}">Doctor's notes</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,15 +33,25 @@
           <li class="nav-item active">
             <a class="nav-link" href="{% url 'home' %}">Home </a>
           </li>
+          {% if doctor == True %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'notes' %}">Notes</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'patients' %}">Patients</a>
           </li>
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+          </li>
+          {% if superuser == True %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin' %}">Admin</a>
+          </li>
+          {% endif %}
           <li class="nav-item">
             {% csrf_token %}
-            <a class="nav-link" href="logout/">Logout</a>
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -51,15 +60,31 @@
         </form>
       </div>
     </nav>
-    {% endif %}
-    <div class="row justify-content-center mt-4">
-      <div class="col-md-8">
-        <h1 class="text-center">Your notes</h2>
-        <ul class="list-group border">
-          {% for note in notes %}
 
-          <li>{{ note.title }} {% endfor %}</li>
-        </ul>
+    <!-- User's notes listed -->
+    <div class="container mt-4">
+      <h1 class="text-center">Your Notes</h1>
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+              <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Content</th>
+                <th scope="col">Date</th>
+              </tr>
+              {% for note in notes %}
+              <tr>
+                <td>
+                  <a href="{% url 'note' %}">{{note.title}}</a>
+                </td>
+                <td>{{note.description}}</td>
+                <td>{{note.createdAt}}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

@@ -32,10 +32,10 @@
           <li class="nav-item active">
             <a class="nav-link" href="{% url 'home' %}">Home </a>
           </li>
+          {% if doctor == True %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'notes' %}">Notes</a>
           </li>
-          {% if doctor == True %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'patients' %}">Patients</a>
           </li>
@@ -43,9 +43,14 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'profile' %}">Profile</a>
           </li>
+          {% if superuser == True %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin' %}">Admin</a>
+          </li>
+          {% endif %}
           <li class="nav-item">
             {% csrf_token %}
-            <a class="nav-link" href="logout/">Logout</a>
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -54,6 +59,7 @@
         </form>
       </div>
     </nav>
+    <!-- Notes table -->
     <div class="container mt-4">
       <h1 class="text-center">Notes</h1>
       <div class="row justify-content-center">
@@ -64,6 +70,8 @@
                 <th scope="col">Title</th>
                 <th scope="col">Content</th>
                 <th scope="col">Date</th>
+                <th scope="col">Patient Name</th>
+                <th scope="col"></th>
               </tr>
               {% for note in notes %}
               <tr>
@@ -72,6 +80,13 @@
                 </td>
                 <td>{{note.description}}</td>
                 <td>{{note.createdAt}}</td>
+                <td>{{note.user.first_name}} {{note.user.last_name}}</td>
+                <td><form id="removeNote" action="{% url 'notes' %}" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="noteId" value="{{note.id}}" />
+                  <input type="submit" value="Remove" />
+                </form>
+              </td>
               </tr>
               {% endfor %}
             </table>
@@ -79,27 +94,27 @@
         </div>
       </div>
     </div>
+    {% if doctor == True %}
+    <!-- Note writing for doctors -->
     <div class="text-center">
-      {% if doctor == True %}
       <h2>Write a note</h2>
-      <form id="note" action="notes/" method="POST">
+      <form id="note" action="{% url 'notes' %}" method="POST">
         {% csrf_token %}
         <span>To:</span><br />
         <select name="to">
           {% for account in accounts %}
           <option value="{{account.user.username}}">
-            {{account.user.username}}
+            {{account.user.first_name}} {{account.user.last_name}}
           </option>
           {% endfor %}</select
         ><br />
         <span>Write a note:</span><br />
         <input type="text" name="title" placeholder="Title" /><br />
-        <textarea name="description" form="description" placeholder="Description"></textarea
-        ><br />
+        <textarea name="description" form="note" placeholder="Description"></textarea><br />
         <input type="submit" value="Submit" />
       </form>
-      {% endif %}
     </div>
+    {% endif %}
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>

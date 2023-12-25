@@ -20,6 +20,6 @@ from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('logout/', LogoutView.as_view(next_page='/')),
+    path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
     path('', include('src.kyberfail.urls'))
 ]

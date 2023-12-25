@@ -32,10 +32,10 @@
           <li class="nav-item active">
             <a class="nav-link" href="{% url 'home' %}">Home </a>
           </li>
+          {% if doctor == True %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'notes' %}">Notes</a>
           </li>
-          {% if doctor == True %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'patients' %}">Patients</a>
           </li>
@@ -43,8 +43,14 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'profile' %}">Profile</a>
           </li>
+          {% if superuser == True %}
           <li class="nav-item">
-            <a class="nav-link" href="logout/">Logout</a>
+            <a class="nav-link" href="{% url 'admin' %}">Admin</a>
+          </li>
+          {% endif %}
+          <li class="nav-item">
+            {% csrf_token %}
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">

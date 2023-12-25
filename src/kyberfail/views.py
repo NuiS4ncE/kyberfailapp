@@ -13,30 +13,25 @@ def homePageView(request):
     accounts = Account.objects.exclude(user=request.user)
     doctor = account.doctor
     notes = Note.objects.filter(user_id=request.user.id)
-    print("NOTES: " + str(notes))
-    print("DOCTOR: " + str(account.doctor))
-    print("ACCOUNTS: " + str(list(accounts)))
-    return render(request, 'pages/index.html', {'notes': notes, 'accounts': accounts, 'doctor': doctor})
+    superuser = account.user.is_superuser
+
+    return render(request, 'pages/index.html', {'notes': notes, 'accounts': accounts, 'doctor': doctor, 'superuser': superuser})
 
 def loginView(request):
     if request.method == 'POST':
         username = request.POST['username']
-        #print("THIS IS THE USERNAME: " + username)
         password = request.POST['password']
-        #print("THIS IS THE PASSWORD: " + password)
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            print("LOGIN SUCCESSFUL, REDIRECTING")
             return redirect('home')
         else:
-            print("LoL")
+            print("Invalid login credentials")
+            return HttpResponse("Invalid login credentials")       
     else:
-        print("RENDERING LOGIN PAGE AGAIN")
         return render(request, 'pages/login.html')
     
 def registerView(request):
-    print("REGISTERVIEW CALLED")
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -46,18 +41,16 @@ def registerView(request):
         try:
             user = User.objects.create_user(username=username, email=email, password=password, first_name=firstName, last_name=lastName)
         except IntegrityError as e:
-                error = "Registration failed. User already exists. More info: " + e.args[0]
-                return HttpResponse("Something went wrong. " + error)
+                error = "Registration failed. More info: " + str(e.args[0])
+                print(error)
+                return HttpResponse(error)
         user.save()
-        print("CREATED USER")
         account = Account.objects.create(user=user, doctor=False)
         account.save()
-        print("CREATED ACCOUNT")        
         user = authenticate(username=username, password=password)
         
         if user is not None:
             login(request, user)
-            print("LOGIN SUCCESSFUL AFTER REGISTER")
             return redirect('home')
     return render(request, 'pages/register.html')
 
@@ -72,32 +65,60 @@ def noteWriteView(request):
 
 @login_required
 def noteView(request):
-    return render(request, 'pages/note.html')
+    note = request.note
+    
+    return render(request, 'pages/note.html', {'note': note})
 
-    return redirect('home')
 
 @login_required
 def notesView(request):
     account = Account.objects.get(user_id=request.user.id)
-    accounts = Account.objects.exclude(user=request.user)
+    accounts = Account.objects.exclude(user=request.user).exclude(user__is_superuser=True)
     doctor = account.doctor
-    notes = Note.objects.all()
+    superuser = account.user.is_superuser
+
+    if doctor == True:
+        notes = Note.objects.all()
+    else:
+        return redirect('home')
+    
     if request.method == 'POST':
-        toUser = User.objects.get(username=request.POST.get('to'))
-        noteTitle = request.POST.get('title')
-        noteDescription = request.POST.get('description')
-        note = Note.objects.create(user=toUser, title=noteTitle, description=noteDescription)
-        note.save()    
-    return render(request, 'pages/notes.html', {'notes': notes, 'accounts': accounts, 'doctor': doctor})
+        if 'noteId' in request.POST:
+            try:
+                note = Note.objects.get(id=request.POST.get('noteId'))
+                note.delete()
+            except Note.DoesNotExist:
+                error = "Something went wrong. More info: " + str(Note.DoesNotExist)
+                print(error)
+                return HttpResponse(error)
+            return redirect('notes')
+        else: 
+            try: 
+                toUser = User.objects.get(username=request.POST.get('to'))
+                noteTitle = request.POST.get('title')
+                noteDescription = request.POST.get('description')
+                note = Note.objects.create(user=toUser, title=noteTitle, description=noteDescription)
+                note.save()
+            except User.DoesNotExist:
+                error = "Something went wrong. More info: " + str(User.DoesNotExist)
+                print(error)
+                return HttpResponse(error)
+            return redirect('notes')    
+    return render(request, 'pages/notes.html', {'notes': notes, 'accounts': accounts, 'doctor': doctor, 'superuser': superuser})
 
 @login_required
 def patientsView(request):
     accounts = Account.objects.exclude(user=request.user)
     account = Account.objects.get(user_id=request.user.id)
     doctor = account.doctor
+    if doctor == False:
+        return redirect('home')
     return render(request, 'pages/patients.html', {'accounts': accounts, 'doctor': doctor})
 
 @login_required
 def profileView(request):
+    account = Account.objects.get(user_id=request.user.id)
+    doctor = account.doctor
+    superuser = account.user.is_superuser
 
-    return render(request, 'pages/profile.html')
+    return render(request, 'pages/profile.html', {'doctor': doctor, 'superuser': superuser})

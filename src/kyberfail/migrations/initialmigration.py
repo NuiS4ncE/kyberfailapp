@@ -43,6 +43,7 @@ def create_admin(apps, schema_editor):
         password="admin",
         first_name="Admin",
         last_name="Admin",
+        is_staff = True,
         is_superuser = True
     )
     Account.objects.create(
