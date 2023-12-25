@@ -42,7 +42,7 @@
           </li>
           {% endif %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+            <a class="nav-link" href="{% url 'profile' %}">My Profile</a>
           </li>
           {% if superuser == True %}
           <li class="nav-item">
@@ -62,7 +62,7 @@
     </nav>
 
     <div class="container mt-4">
-        <h1 class="text-center">You searched for "{{ query }}"</h1>
+        <h1 class="text-center">Search results for "{{ query }}"</h1>
         <div class="row justify-content-center">
           <div class="col-md-8">
           </div>
@@ -85,7 +85,7 @@
                 {% for note in noteResults %}
                 <tr>
                   <td>
-                    <a href="{% url 'note' %}">{{note.title}}</a>
+                    <a href="{% url 'note' note.id %}">{{note.title}}</a>
                   </td>
                   <td>{{note.description}}</td>
                   <td>{{note.createdAt}}</td>

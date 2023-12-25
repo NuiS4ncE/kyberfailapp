@@ -75,25 +75,35 @@
         </form>
       </div>
     </nav>
-    <div class="container mt-4">
-      <h1 class="text-center">Doctor's Note</h1> </br>
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <div class="table-responsive">
-            <div class="table-responsive">
+        <div class="container mt-4">
+          <h1 class="text-center">Patient information</h1>
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="table-responsive">
                 <table class="table table-bordered table-striped">
-                  <tr>
-                    <th scope="col">Title</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Date</th>
-                  </tr>
-                  <tr>
-                    <td>{{note.title}}</td>
-                    <td>{{note.description}}</td>
-                    <td>{{note.createdAt}}</td>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Username:</th>
+                      <td>{{patient.username}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">First name:</th>
+                      <td>{{patient.first_name}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Last name:</th>
+                      <td>{{patient.last_name}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Email:</th>
+                      <td>{{patient.email}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
+          </div>
         </div>
-      </div>
-    </div>
+        </h1>
   </body>
 </html>

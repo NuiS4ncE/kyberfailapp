@@ -42,7 +42,7 @@
           </li>
           {% endif %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+            <a class="nav-link" href="{% url 'profile' %}">My Profile</a>
           </li>
           {% if superuser == True %}
           <li class="nav-item">
@@ -62,33 +62,23 @@
     </nav>
     <!-- Patients table -->
     {% if doctor == True %}
-    <h1 class="text-center">Patients</h2>
+    <!-- Notes table -->
     <div class="container mt-4">
-      <h1 class="text-center">Patient information</h1>
+      <h1 class="text-center">Patients</h1>
       <div class="row justify-content-center">
         <div class="col-md-8">
           <div class="table-responsive">
-            {% for account in accounts %}
             <table class="table table-bordered table-striped">
-              <tbody>
-                <tr>
-                  <th scope="row">Username:</th>
-                  <td>{{account.user.username}}</td>
-                </tr>
-                <tr>
-                  <th scope="row">First name:</th>
-                  <td>{{account.user.first_name}}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Last name:</th>
-                  <td>{{account.user.last_name}}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Email:</th>
-                  <td>{{account.user.email}}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
+              <tr>
+                <th scope="col">Full Name</th>
+              </tr>
+              {% for account in accounts %}
+              <tr>
+                <td>
+                  <a href="{% url 'patient' account.user_id %}">{{account.user.first_name}} {{account.user.last_name}}</a>
+                </td>
+              </tr>
+              {% endfor %}
             </table>
           </div>
         </div>

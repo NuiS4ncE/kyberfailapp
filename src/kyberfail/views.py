@@ -65,10 +65,20 @@ def noteWriteView(request):
         note.save()
 
 @login_required
-def noteView(request):
-    note = request.note
-    
-    return render(request, 'pages/note.html', {'note': note})
+def noteView(request, noteId):
+    note = Note.objects.get(id=noteId)
+    account = Account.objects.get(user_id=request.user.id)
+    doctor = account.doctor
+
+    return render(request, 'pages/note.html', {'note': note, 'doctor': doctor})
+
+@login_required
+def patientView(request, patientId):
+    patient = User.objects.get(id=patientId)
+    account = Account.objects.get(user_id=request.user.id)
+    doctor = account.doctor
+
+    return render(request, 'pages/patient.html', {'patient': patient, 'doctor': doctor})
 
 
 @login_required
