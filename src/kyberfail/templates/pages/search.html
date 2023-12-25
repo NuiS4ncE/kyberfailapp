@@ -55,46 +55,54 @@
           </li>
         </ul>
         <form class="d-flex ms-auto" action="{% url 'search' %}" method="GET">
-          <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+            <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
       </div>
     </nav>
+
     <div class="container mt-4">
-      <h1 class="text-center">User information</h1>
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <div class="table-responsive">
-            <table class="table table-bordered table-striped">
-              <tr>
-                <th scope="row">Username:</th>
-                <td>
-                  {{user.username}}
-                  <tr>
-                    <th scope="row">First name:</th>
-                    <td>
-                      {{user.first_name}}
-                      <tr>
-                        <th scope="row">Last name:</th>
-                        <td>
-                          {{user.last_name}}
-                          <tr>
-                            <th scope="row">Email:</th>
-                            <td>{{user.email}}</td>
-                          </tr>
-                        </td>
-                      </tr>
-                    </td>
-                  </tr>
+        <h1 class="text-center">You searched for "{{ query }}"</h1>
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+          </div>
+        </div>
+    </div>
+    <!-- Notes table -->
+    <div class="container mt-4">
+        <h1 class="text-center">Notes</h1>
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped">
+                <tr>
+                  <th scope="col">Title</th>
+                  <th scope="col">Content</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Patient Name</th>
+                  <th scope="col"></th>
+                </tr>
+                {% for note in noteResults %}
+                <tr>
+                  <td>
+                    <a href="{% url 'note' %}">{{note.title}}</a>
+                  </td>
+                  <td>{{note.description}}</td>
+                  <td>{{note.createdAt}}</td>
+                  <td>{{note.user.first_name}} {{note.user.last_name}}</td>
+                  <td><form id="removeNote" action="{% url 'notes' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="noteId" value="{{note.id}}" />
+                    <input type="submit" value="Remove" />
+                  </form>
                 </td>
-              </tr>
-            </table>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
   </body>
 </html>

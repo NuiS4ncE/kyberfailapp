@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from .models import Account, Note
 from django.contrib.auth import authenticate, login
 from django.db import IntegrityError
+from django.db.models import Q
 
 @login_required
 def homePageView(request):
@@ -122,3 +123,17 @@ def profileView(request):
     superuser = account.user.is_superuser
 
     return render(request, 'pages/profile.html', {'doctor': doctor, 'superuser': superuser})
+
+@login_required
+def searchView(request):
+    account = Account.objects.get(user_id=request.user.id)
+    query = request.GET.get('query')
+    doctor = account.doctor
+    if query is not None:
+        noteResults = Note.objects.filter(
+            Q(title__icontains=query) | Q(description__icontains=query)).distinct()
+        #context = {'results': results, 'query': query}
+        print(noteResults)
+        return render(request, 'pages/search.html', {'noteResults': noteResults, 'query': query, 'doctor': doctor})
+    else:
+        return redirect('notes')
