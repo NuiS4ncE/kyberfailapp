@@ -127,7 +127,7 @@ def notesView(request):
 
 @login_required
 def patientsView(request):
-    accounts = Account.objects.exclude(user=request.user)
+    accounts = Account.objects.exclude(user=request.user).exclude(user__is_superuser=True)
     account = Account.objects.get(user_id=request.user.id)
     doctor = account.doctor
     if doctor == False:
