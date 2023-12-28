@@ -144,9 +144,12 @@ def searchView(request):
     doctor = account.doctor
     superuser = account.user.is_superuser
     if query is not None:
-        noteResults = Note.objects.filter(Q(user=request.user),
-            Q(title__icontains=query) | Q(description__icontains=query)).distinct()
-
+        if doctor == True or superuser == True:
+            noteResults = Note.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).distinct()
+        else:
+            noteResults = Note.objects.filter(Q(user=request.user),
+                Q(title__icontains=query) | Q(description__icontains=query)).distinct()
+        
         return render(request, 'pages/search.html', {'noteResults': noteResults, 'query': query, 'doctor': doctor, 'superuser': superuser})
     else:
         return redirect('notes')
