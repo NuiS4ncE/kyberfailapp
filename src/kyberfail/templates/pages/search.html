@@ -80,7 +80,9 @@
                   <th scope="col">Content</th>
                   <th scope="col">Date</th>
                   <th scope="col">Patient Name</th>
+                  {% if doctor == True %}
                   <th scope="col"></th>
+                  {% endif %}
                 </tr>
                 {% for note in noteResults %}
                 <tr>
@@ -90,12 +92,14 @@
                   <td>{{note.description}}</td>
                   <td>{{note.createdAt}}</td>
                   <td>{{note.user.first_name}} {{note.user.last_name}}</td>
+                  {% if doctor == True %}
                   <td><form id="removeNote" action="{% url 'notes' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="noteId" value="{{note.id}}" />
                     <input type="submit" value="Remove" />
                   </form>
                 </td>
+                {% endif %}
                 </tr>
                 {% endfor %}
               </table>
@@ -103,6 +107,8 @@
           </div>
         </div>
       </div>
-
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>  
   </body>
 </html>

@@ -13,7 +13,7 @@
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: #5784d7;
+    background: #57d7d7;
     border: 2px solid #8fb3f5;
     display: block;
     margin-right: 1rem;
@@ -22,8 +22,8 @@
 
 body {
     min-height: 100vh;
-    background-color: #6190e8;
-    background-image: linear-gradient(to right, #5784d7 0%, #a7bfe8 100%);
+    background-color: #57d7d7;
+    background-image: linear-gradient(to right, #57d7d7 0%, #a7bfe8 100%);
 }
 
 li {

@@ -66,9 +66,12 @@ def noteWriteView(request):
 
 @login_required
 def noteView(request, noteId):
+    # Broken access control here
     note = Note.objects.get(id=noteId)
     account = Account.objects.get(user_id=request.user.id)
     doctor = account.doctor
+    if(note.user_id is not request.user.id):
+        return redirect('home')
 
     return render(request, 'pages/note.html', {'note': note, 'doctor': doctor})
 
@@ -138,14 +141,14 @@ def profileView(request):
 
 @login_required
 def searchView(request):
+    # Injection here
     account = Account.objects.get(user_id=request.user.id)
     query = request.GET.get('query')
     doctor = account.doctor
     if query is not None:
-        noteResults = Note.objects.filter(
+        noteResults = Note.objects.filter(Q(user=request.user),
             Q(title__icontains=query) | Q(description__icontains=query)).distinct()
-        #context = {'results': results, 'query': query}
-        print(noteResults)
+
         return render(request, 'pages/search.html', {'noteResults': noteResults, 'query': query, 'doctor': doctor})
     else:
         return redirect('notes')

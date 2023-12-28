@@ -86,11 +86,13 @@
                     <th scope="col">Title</th>
                     <th scope="col">Description</th>
                     <th scope="col">Date</th>
+                    <th scope="col">Patient</th>
                   </tr>
                   <tr>
                     <td>{{note.title}}</td>
                     <td>{{note.description}}</td>
                     <td>{{note.createdAt}}</td>
+                    <td>{{note.user.first_name}} {{note.user.last_name}}</td>
             </div>
         </div>
       </div>
