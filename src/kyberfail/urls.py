@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from .views import homePageView, loginView, registerView, patientsView, notesView, noteView, profileView, searchView, patientView
+from .views import homePageView, loginView, registerView, patientsView, notesView, noteView, profileView, searchView, patientView, adminView
 
 urlpatterns = [
     path('', homePageView, name='home'),
@@ -11,5 +11,6 @@ urlpatterns = [
     path('note/<int:noteId>', noteView, name='note'),
     path('patient/<int:patientId>', patientView, name='patient'),
     path('profile/', profileView, name='profile'),
-    path('search/', searchView, name='search')
+    path('search/', searchView, name='search'),
+    path('admin/', adminView, name='admin')
 ]

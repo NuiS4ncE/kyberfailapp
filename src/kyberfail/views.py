@@ -59,34 +59,27 @@ def registerView(request):
     return render(request, 'pages/register.html')
 
 @login_required
-def noteWriteView(request):
-    if request.method == 'POST':
-        toUser = User.objects.get(username=request.POST.get('to'))
-        noteTitle = request.POST.get('title')
-        noteDescription = request.POST.get('description')
-        note = Note.objects.create(user=toUser, title=noteTitle, description=noteDescription)
-        note.save()
-
-@login_required
 def noteView(request, noteId):
     # Broken access control here
     note = Note.objects.get(id=noteId)
     account = Account.objects.get(user_id=request.user.id)
     doctor = account.doctor
+    superuser = account.user.is_superuser
     if (note.user_id is not request.user.id and not doctor):
         return redirect('home')
 
-    return render(request, 'pages/note.html', {'note': note, 'doctor': doctor})
+    return render(request, 'pages/note.html', {'note': note, 'doctor': doctor, 'superuser': superuser})
 
 @login_required
 def patientView(request, patientId):
     account = Account.objects.get(user_id=request.user.id)
     doctor = account.doctor
+    superuser = account.user.is_superuser
     if doctor == False:
         return redirect('home')
     patient = User.objects.get(id=patientId)
 
-    return render(request, 'pages/patient.html', {'patient': patient, 'doctor': doctor})
+    return render(request, 'pages/patient.html', {'patient': patient, 'doctor': doctor, 'superuser': superuser})
 
 
 @login_required
@@ -130,9 +123,10 @@ def patientsView(request):
     accounts = Account.objects.exclude(user=request.user).exclude(user__is_superuser=True)
     account = Account.objects.get(user_id=request.user.id)
     doctor = account.doctor
+    superuser = account.user.is_superuser
     if doctor == False:
         return redirect('home')
-    return render(request, 'pages/patients.html', {'accounts': accounts, 'doctor': doctor})
+    return render(request, 'pages/patients.html', {'accounts': accounts, 'doctor': doctor, 'superuser': superuser})
 
 @login_required
 def profileView(request):
@@ -148,10 +142,20 @@ def searchView(request):
     account = Account.objects.get(user_id=request.user.id)
     query = request.GET.get('query')
     doctor = account.doctor
+    superuser = account.user.is_superuser
     if query is not None:
         noteResults = Note.objects.filter(Q(user=request.user),
             Q(title__icontains=query) | Q(description__icontains=query)).distinct()
 
-        return render(request, 'pages/search.html', {'noteResults': noteResults, 'query': query, 'doctor': doctor})
+        return render(request, 'pages/search.html', {'noteResults': noteResults, 'query': query, 'doctor': doctor, 'superuser': superuser})
     else:
         return redirect('notes')
+    
+@login_required
+def adminView(request):
+    account = Account.objects.get(user_id=request.user.id)
+    doctor = account.doctor
+    superuser = account.user.is_superuser
+    if superuser == False:
+        return redirect('home')
+    return render(request, 'pages/admin.html', {'doctor': doctor, 'superuser': superuser})
