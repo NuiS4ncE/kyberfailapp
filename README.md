@@ -25,5 +25,7 @@ The app runs in the local address of `127.0.0.1:8000`.
 1. [Download Docker](https://docs.docker.com/get-docker/).
 2. Build and run the app with `docker-compose up`
 
+The app runs in the local address of `0.0.0.0:8000`.
+
 __*Note: Building and running the app with Docker might lock the SQLite database to a read-only status, so that running the app straight from the Terminal or PowerShell afterwards doesn't work. 
 Remember to remove the `db.sqlite3`. Then run `python manage.py makemigrations` and `python manage.py migrate` to remigrate the database before running `python manage.py runserver`.*__
