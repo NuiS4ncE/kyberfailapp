@@ -1,0 +1,10 @@
+version: '3.3'
+services:
+  web:
+    build: .
+    volumes:
+      - .:/code
+      - .db_data/db.sqlite3:/db.sqlite3
+    ports:
+      - "8000:8000"
+    command: ["./entrypoint.sh"]
