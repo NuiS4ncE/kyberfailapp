@@ -38,7 +38,7 @@ def create_admin(apps, schema_editor):
     User = apps.get_model('auth', 'User')
 
     user = User.objects.create_user(
-        username = "admin",
+        username = str(os.getenv('ADMIN_USERNAME')),
         email = "admin@admin.com",
         password=str(os.getenv('ADMIN_PASSWORD')),
         first_name="Admin",
