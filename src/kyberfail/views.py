@@ -70,7 +70,7 @@ def noteView(request, noteId):
     note = Note.objects.get(id=noteId)
     account = Account.objects.get(user_id=request.user.id)
     doctor = account.doctor
-    if(note.user_id is not request.user.id):
+    if (note.user_id is not request.user.id and not doctor):
         return redirect('home')
 
     return render(request, 'pages/note.html', {'note': note, 'doctor': doctor})
