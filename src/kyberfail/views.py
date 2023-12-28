@@ -5,8 +5,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from .models import Account, Note
 from django.contrib.auth import authenticate, login
-from django.db import IntegrityError
+from django.db import IntegrityError, connection
 from django.db.models import Q
+import sqlite3
 
 @login_required
 def homePageView(request):
@@ -142,9 +143,11 @@ def searchView(request):
     doctor = account.doctor
     superuser = account.user.is_superuser
     if query is not None:
-        noteResults = Note.objects.filter(Q(user=request.user),
-            Q(title__icontains=query) | Q(description__icontains=query)).distinct()
-
+        conn = sqlite3.connect("src/db.sqlite3")
+        cursor = conn.cursor()
+        response = cursor.execute("SELECT * FROM kyberfail_note WHERE user_id=" + str(account.user.id)+ " and description LIKE '%" + query + "%'").fetchall()
+        inputTuple = ('id','title', 'description', 'createdAt', 'user_id')
+        noteResults = [dict(zip(inputTuple, note)) for note in response]
         return render(request, 'pages/search.html', {'noteResults': noteResults, 'query': query, 'doctor': doctor, 'superuser': superuser})
     else:
         return redirect('notes')
