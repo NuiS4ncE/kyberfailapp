@@ -13,10 +13,11 @@ The app has been configured to be used with [Docker](https://www.docker.com/) as
 You can check your Python version by writing `python -V` into the Terminal on Linux or PowerShell on Windows. *Note: Sometimes the Python command might be defined as `python3`.*
 2. Make sure pip is installed with `python -m pip -V`
 3. Install Django with `python -m pip install Django`
-4. Migrate databases by: 
+4. Install dotenv with `python -m pip install python-dotenv`
+5. Migrate databases by: 
 - First run `python manage.py makemigrations`
 - Then run `python manage.py migrate`
-5. Then start the app with `python manage.py runserver`
+6. Then start the app with `python manage.py runserver`
 
 The app runs in the local address of `127.0.0.1:8000`.
 
