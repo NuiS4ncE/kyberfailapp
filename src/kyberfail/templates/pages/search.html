@@ -80,9 +80,7 @@
                   <th scope="col">Content</th>
                   <th scope="col">Date</th>
                   <th scope="col">Patient Name</th>
-                  {% if doctor == True %}
                   <th scope="col"></th>
-                  {% endif %}
                 </tr>
                 {% for note in noteResults %}
                 <tr>
@@ -92,14 +90,13 @@
                   <td>{{note.description}}</td>
                   <td>{{note.createdAt}}</td>
                   <td>{{note.user.first_name}} {{note.user.last_name}}</td>
-                  {% if doctor == True %}
+                  
                   <td><form id="removeNote" action="{% url 'notes' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="noteId" value="{{note.id}}" />
                     <input type="submit" value="Remove" />
                   </form>
-                </td>
-                {% endif %}
+                </td>                
                 </tr>
                 {% endfor %}
               </table>

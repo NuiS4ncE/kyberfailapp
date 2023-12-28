@@ -145,7 +145,7 @@ def searchView(request):
     if query is not None:
         conn = sqlite3.connect("src/db.sqlite3")
         cursor = conn.cursor()
-        response = cursor.execute("SELECT * FROM kyberfail_note WHERE user_id=" + str(account.user.id)+ " and description LIKE '%" + query + "%'").fetchall()
+        response = cursor.execute("SELECT * FROM kyberfail_note WHERE user_id=" + str(account.user.id)+ " and title LIKE '%" + query + "%'").fetchall()
         inputTuple = ('id','title', 'description', 'createdAt', 'user_id')
         noteResults = [dict(zip(inputTuple, note)) for note in response]
         return render(request, 'pages/search.html', {'noteResults': noteResults, 'query': query, 'doctor': doctor, 'superuser': superuser})
