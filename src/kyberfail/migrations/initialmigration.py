@@ -1,8 +1,6 @@
 from django.db import migrations, models
-from dotenv import load_dotenv
 import datetime, os
 
-load_dotenv()
 def create_initial_user(apps, schema_editor):
     Account = apps.get_model('kyberfail', 'Account')
     User = apps.get_model('auth', 'User')
@@ -42,7 +40,7 @@ def create_admin(apps, schema_editor):
     user = User.objects.create_user(
         username = "admin",
         email = "admin@admin.com",
-        password=os.getenv('ADMIN_PASSWORD'),
+        password=str(os.getenv('ADMIN_PASSWORD')),
         first_name="Admin",
         last_name="Admin",
         is_staff = True,

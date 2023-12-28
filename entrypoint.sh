@@ -1,5 +1,6 @@
 #!/bin/bash
 python -m pip install --upgrade pip
+python -m pip install python3-dotenv
 
 # Make database migrations
 echo "Database migrations"
