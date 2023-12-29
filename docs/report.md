@@ -31,3 +31,6 @@ This can be fixed by adding an if-statement in line [95](https://github.com/NuiS
 ## FLAW 5:
 #### A05 Security Misconfiguration
 
+Here we have two flaws for A05: in the `initialmigration.py` in lines [4 to 68](https://github.com/NuiS4ncE/kyberfailapp/blob/main/src/kyberfail/migrations/initialmigration.py#L4-L68) we have defined multiple default users and passwords, such as the aforementioned `admin/admin`. Removing this file and using `python-dotenv` before pushing the app into production is recommended, especially, if the repository is public.
+The other flaw is in the `views.py` in lines [48 to 56](https://github.com/NuiS4ncE/kyberfailapp/blob/main/src/kyberfail/views.py#L48-L56). Let’s imagine a shoddy junior developer has lost their password and since Django hashes it automatically. The password isn't retrievable, so the junior dev has implemented an error page that reveals the username and password for a user. I might be grasping at straws, but it’s something. 
+This can be easily fixed in the `views.py` by removing these stupid lines of code. Fixed version of the code is in the `working` branch, `views.py` lines [45 to 50](https://github.com/NuiS4ncE/kyberfailapp/blob/working/src/kyberfail/views.py#L45-L50).
