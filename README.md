@@ -3,6 +3,8 @@
 This is the repository of a [Django](https://www.djangoproject.com/) web app for the [Cybersecurity base project I](https://cybersecuritybase.mooc.fi/module-3.1). 
 The app is internally named "Doctor's notes" and has patient and doctor roles for users as well as adding, removing and viewing of doctor's notes. Doctors can write, view and remove notes in addition to viewing patients.
 
+The repository is in two branches: the `main` branch has five security flaws that are implemented on purpose as per the project assignment and the `working` branch that has fixes to those security flaws. Working branch can be found [here](https://github.com/NuiS4ncE/kyberfailapp/tree/working). The report can be read from the [report.md](./docs/report.md) file.
+
 ## Setup guide
 
 The app has been configured to be used with [Docker](https://www.docker.com/) as an extra exercise, but can be ran regularly with Django commands. 
