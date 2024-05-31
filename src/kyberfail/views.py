@@ -94,7 +94,7 @@ def notesView(request):
     else:
         return redirect('home')
     
-    if request.method == 'POST':
+    if request.method == 'POST' and (doctor or superuser):
         if 'noteId' in request.POST:
             try:
                 note = Note.objects.get(id=request.POST.get('noteId'))
@@ -143,11 +143,11 @@ def searchView(request):
     query = request.GET.get('query')
     doctor = account.doctor
     superuser = account.user.is_superuser
-    if query is not None:
-        if doctor == True or superuser == True:
+    if query:
+        if doctor or superuser:
             noteResults = Note.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).distinct()
         else:
-            noteResults = Note.objects.filter(Q(user=request.user),
+            noteResults = Note.objects.filter(Q(user=request.user) &
                 Q(title__icontains=query) | Q(description__icontains=query)).distinct()
         
         return render(request, 'pages/search.html', {'noteResults': noteResults, 'query': query, 'doctor': doctor, 'superuser': superuser})
