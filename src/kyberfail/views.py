@@ -42,9 +42,6 @@ def registerView(request):
         try:
             user = User.objects.create_user(username=username, email=email, password=password, first_name=firstName, last_name=lastName)
         except IntegrityError as e:
-                # Security misconfiguration
-                #error = "Registration failed. More info: " + str(e.args[0])
-                #print(error)
                 error = "Registration failed."
                 print(str(e))
                 return HttpResponse(error)
