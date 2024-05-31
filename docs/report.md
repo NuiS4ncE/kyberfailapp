@@ -26,7 +26,7 @@ The fix is found in the “working” branch in `views.py` lines [139 to 155](ht
 #### A04 Insecure Design
 
 Again in the search view, it’s possible to remove notes from yourself. By using the other aforementioned SQL injection, you can also remove notes from other patients. The page template file `search.html` is missing a check for doctor status in lines [93 to 99](https://github.com/NuiS4ncE/kyberfailapp/blob/main/src/kyberfail/templates/pages/search.html#L93-L99) . 
-This can be fixed by adding an if-statement in line [95](https://github.com/NuiS4ncE/kyberfailapp/blob/working/src/kyberfail/templates/pages/search.html#L95) and line [83](https://github.com/NuiS4ncE/kyberfailapp/blob/working/src/kyberfail/templates/pages/search.html#L83). Line 83 statement is somewhat for cosmetic reasons, though, as to not reveal to normal users that there should be something. 
+This can be fixed by adding an if-statement in line [95](https://github.com/NuiS4ncE/kyberfailapp/blob/working/src/kyberfail/templates/pages/search.html#L95) and line [83](https://github.com/NuiS4ncE/kyberfailapp/blob/working/src/kyberfail/templates/pages/search.html#L83) also by adding sanitation for the backend in `notesView` in line [97](https://github.com/NuiS4ncE/kyberfailapp/blob/working/src/kyberfail/views.py#L97). Line 83 statement is somewhat for cosmetic reasons, though, as to not reveal to normal users that there should be something. 
 
 ## FLAW 5:
 #### A05 Security Misconfiguration
