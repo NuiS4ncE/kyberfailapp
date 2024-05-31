@@ -45,15 +45,10 @@ def registerView(request):
         try:
             user = User.objects.create_user(username=username, email=email, password=password, first_name=firstName, last_name=lastName)
         except IntegrityError as e:
-                # Security misconfiguration
-                error = "Registration failed. More info: " + str(*e.args)
-                if "UNIQUE constraint failed: auth_user.username" in str(*e.args):
-                    userExists = User.objects.get(username=username)
-                    if check_password(password, userExists.password):
-                            leakedPass = " also the password is in use: " + password
-                    print(error)
+                error = "Registration failed."
+                print(error)
                 print(str(e))
-                return HttpResponse(error + leakedPass)
+                return HttpResponse(error)
         user.save()
         account = Account.objects.create(user=user, doctor=False)
         account.save()
